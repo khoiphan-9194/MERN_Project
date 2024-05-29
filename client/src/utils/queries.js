@@ -108,10 +108,12 @@ export const QUERY_DONATION = gql`
 
 
 
-export const QUERY_CHECKOUT = gql`
-  query getCheckout($donations: [DonationInput]) {
-    checkout(donations: $donations) {
+export const SUBMIT_DONATION = gql`
+  query donationCheckout($eventName:String!, $nameOfdonator: String!, $amount: Int!) {
+    donationCheckout(eventName: $eventName, nameOfdonator: $nameOfdonator, amount: $amount) {
       session
     }
   }
 `;
+
+

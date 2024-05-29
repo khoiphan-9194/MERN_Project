@@ -8,6 +8,9 @@ import { useQuery } from '@apollo/client';
 import CoffeeList from './CoffeeList';
 import { QUERY_COFFEEHOUSES } from '../utils/queries';
 import { useState } from 'react';
+import Header from './Header';
+import Auth from '../utils/auth';
+
 
 
 
@@ -20,13 +23,19 @@ function Homepage()  {
   const coffeehouses = data?.coffeehouses || [];
   return (
     <main>
-
+     
       <div >
+       
+
         <div>
           {loading ? (
             <div>Loading...</div>
+            
           ) : (
+
+            
             <CoffeeList
+            
               coffeehouses={coffeehouses}
               title=""
             />
@@ -34,6 +43,10 @@ function Homepage()  {
           )}
           
         </div>
+        
+        
+        
+  
       </div>
     </main>
   );

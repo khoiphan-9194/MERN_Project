@@ -21,12 +21,8 @@ function Header(props) {
       <section>
         <header>
           <div>
-
-
           </div>
-
           <div >
-
             <NavTabs
               currentTab={currentTab}
               handleTabChange={handleTabChange}
@@ -36,7 +32,7 @@ function Header(props) {
           </div>
         </header>
 
-        <div class="small-quote">
+        <div className="small-quote">
           <h1 >
             <span><em>{quote} </em></span>
 
@@ -47,18 +43,18 @@ function Header(props) {
 
       </section>
 
-      <section class="text-center">
-      <h5 class="neon" data-text="U">W<span class="flicker-slow">el</span>C
-      <span class="flicker-fast">o</span>mE
-      <span class="flicker-fast"> T</span>o B
-      <span class="flicker-fast">r</span>eW
-      <span class="flicker-fast">T</span>i
-      <span class="flicker-fast">p</span></h5>
- 
- 
-        
+      <section className="text-center">
+        <h5 className="neon" data-text="U">W<span className="flicker-slow">el</span>C
+          <span className="flicker-fast">o</span>mE
+          <span className="flicker-fast"> T</span>o B
+          <span className="flicker-fast">r</span>eW
+          <span className="flicker-fast">T</span>i
+          <span className="flicker-fast">p!!!</span></h5>
+
+
+
       </section>
-      
+
     </div>
   );
 }

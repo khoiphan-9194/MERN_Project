@@ -5,32 +5,64 @@ import { Link } from 'react-router-dom';
 import { ADD_COFFEE_HOUSE } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
+import axios from 'axios';
 
 import Auth from '../utils/auth';
 
 const CreateCoffeeHouse = () => {
   const { profileId } = useParams();
 
+  const [newPostImage, setNewPostImage] = useState(null);
+  const [newPostImageName, setNewPostImageName] = useState('');
+  const [addCoffeeHouse, { error, }] = useMutation(ADD_COFFEE_HOUSE);
   const [formState, setFormState] = useState({
     coffeeName: '',
     address: '',
     bio: '',
-    image:''
   });
 
-  const [addCoffeeHouse, { error, }] = useMutation(ADD_COFFEE_HOUSE);
+
+  
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
+    
     setFormState({
-
       ...formState,
       [name]: value,
     });
+
+    
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    if (!file) return;
+    setNewPostImage(file);
+    setNewPostImageName(file.name);
+    console.log(file.name);
   
+      console.log(newPostImage)
+      console.log(newPostImageName)
+
+  };
+
+
+  const upload =(e)=>{
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('file', newPostImage);
+    axios.post('http://localhost:3001/upload', formData)
+    .then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+  
+
+
 
   const { loading, data } = useQuery(profileId ? QUERY_USER : QUERY_ME, {
     variables: { profileId: profileId },
@@ -49,18 +81,41 @@ const CreateCoffeeHouse = () => {
 
   }
 
+
+
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
+    console.log(newPostImage);
+
+    
+
+
+   
 
     try {
+
+      // const formData = new FormData();
+      // formData.append('file',newPostImageName);
+      // axios.post('http://localhost:3001/upload', formData)
+      // .then((res) => {
+      //   console.log(res);
+      // }).catch((err) => {
+      //   console.log(err);
+      // });
+
+      upload(event);
+
       const { data } = await addCoffeeHouse({
         variables: {
           ownerId: profile._id,
-          ...formState
+          ...formState,
+          image: newPostImageName
         },
         
       });
+
+
       console.log(data)
 
       setFormState({
@@ -69,7 +124,7 @@ const CreateCoffeeHouse = () => {
         bio:''}
       )
 
-      document.location.href=`/`;
+      document.location.href=`http://localhost:3000/me/${profile._id}`;
 
     } catch (e) {
       console.error(e);
@@ -103,6 +158,10 @@ const CreateCoffeeHouse = () => {
           Id: {`${profile._id}`}
         </h2>
       </div>
+
+   
+
+
       <form onSubmit={handleFormSubmit}>
         <div data-mdb-input-init class="form-outline mb-4">
           <input type="text" class="form-control" name="coffeeName"
@@ -120,10 +179,25 @@ const CreateCoffeeHouse = () => {
           <label class="form-label" for="form6Example7">Tell more about your coffee story</label>
         </div>
         <div data-mdb-input-init class="form-outline mb-4">
-          <input type="text" class="form-control" name="image"
-          value={formState.image} onChange={handleChange}/>
-          <label class="form-label">Input Image Name</label>
+     
+
+      <br /> <br />
+
+      <input type="file" accept="image/*" onChange={handleImageChange} />
+        {newPostImageName && (
+          <div>
+            <h6>Selected Image: {newPostImageName}</h6>
+            <img
+              style={{ width: '50%' }}
+              src={URL.createObjectURL(newPostImage)}
+              alt={newPostImageName}
+            />
+      
+          </div>
+        )}
+
         </div>
+        
      
         <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Submit
          
@@ -132,7 +206,16 @@ const CreateCoffeeHouse = () => {
              
         </button>
       </form>
+     
 
+
+        <br />
+
+
+
+
+
+  
       <br />  <br />  <br />
     </div>
 
@@ -155,3 +238,22 @@ export default CreateCoffeeHouse;
             return <li>{data.me.coffeehouse[key].coffeeName}</li>
           })}
 */
+
+
+
+
+{/* <form onSubmit={upload}>
+<input type="file" accept="image/*" onChange={handleImageChange} />
+{newPostImageName && (
+  <div>
+    <h6>Selected Image: {newPostImageName}</h6>
+    <img
+      style={{ width: '50%' }}
+      src={URL.createObjectURL(newPostImage)}
+      alt={newPostImageName}
+    />
+
+  </div>
+)}
+<button type="submit">Upload</button>
+</form> */}

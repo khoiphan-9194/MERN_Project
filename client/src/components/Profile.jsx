@@ -11,26 +11,33 @@ import { useMutation } from '@apollo/client';
 import Auth from '../utils/auth';
 
 const Profile = () => {
-  
 
-const [removeCoffeehouse, { error, }] = useMutation(REMOVE_COFFEE_HOUSE);
-const handleRemoveButton = async (coffeeId) => {
 
-  try {
-    const { data } = await removeCoffeehouse({
-      variables: {coffeeId} 
-    });
-    location.replace(`http://localhost:3000/`)
- 
+  const [removeCoffeehouse, { error, }] = useMutation(REMOVE_COFFEE_HOUSE);
+  const handleRemoveButton = async (coffeeId) => {
 
-  } catch (e) {
-    console.error(e);
+    try {
+      const { data } = await removeCoffeehouse({
+        variables: { coffeeId }
+      });
+      location.replace(`http://localhost:3000/`)
+
+
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+
+
+  function TokenExpired_timeOut()  {
+    localStorage.removeItem('id_token')
+    setTimeout(() => {
+      location.replace(`http://localhost:3000`);
+    }, 3000)
+        
+
   }
-};
-
-
- 
-
 
   const { profileId } = useParams();
 
@@ -52,18 +59,30 @@ const handleRemoveButton = async (coffeeId) => {
   }
 
   if (loading) {
+
     return <div>Loading...</div>;
   }
 
   if (!profile?.userName) {
     return (
-      <h4>
-        You need to be logged in to see this. Use the navigation links above to
-        sign up or log in!
+      <div>
+
+        <h4>
+          You need to be logged in to see this. Use the navigation links above to
+          sign up or log in!
+
+        </h4>
+          {/* {TokenExpired_timeOut()} */}
+
+ 
+
+      </div>
 
 
-      </h4>
+
     );
+    
+
   }
 
   return (
@@ -83,41 +102,41 @@ const handleRemoveButton = async (coffeeId) => {
                         My coffee story:<br /> {data.me.coffeehouse[key].bio}
                       </div>
                     </Alert>
-                    
+
                     <Link to={`/coffeehouses/${data.me.coffeehouse[key]._id}`}>
                       <Button variant="primary" size="lg" active>
                         Click to see details.
                       </Button>{' '}
-                
+
                     </Link>
-               
-           
-                            <form onSubmit={()=>handleRemoveButton(`${data.me.coffeehouse[key]._id}`)}>
-                              
-                              <button className="btn btn-lg btn-danger m-2" type="submit">
-                                   Delete
-                              </button>
-                                
-                              </form>
-            
-                   
+
+
+                    <form onSubmit={() => handleRemoveButton(`${data.me.coffeehouse[key]._id}`)}>
+
+                      <button className="btn btn-lg btn-danger m-2" type="submit">
+                        Delete
+                      </button>
+
+                    </form>
+
+
                   </Accordion.Body>
-                  
+
                 </Accordion.Item>
               </Accordion>
-          
-                              
+
+
             </div>
           })}
         </h2>
       </div>
-    
-          <Link
-              className="btn btn-warning btn-block btn-squared"
-              to={`/createCoffeehouse`}
-            >
-              <h2>Another Coffee House ????</h2>
-            </Link>
+
+      <Link
+        className="btn btn-warning btn-block btn-squared"
+        to={`/createCoffeehouse`}
+      >
+        <h2>Another Coffee House ????</h2>
+      </Link>
 
 
       <br />  <br />  <br />

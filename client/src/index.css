@@ -67,7 +67,7 @@ code {
 
 #contact
 {
-  background-image: url('./public/event12.jpg');
+  background-image: url('/event12.jpg');
  
 background-size:1250px 800px;
 border: transparent;
@@ -169,8 +169,8 @@ footer a:hover {
   opacity: 0.5;
   transition: .5s ease;
 }
-
-.main-header header
+/* .main-header */
+ header
 {
 
  padding: 20px;
@@ -178,11 +178,13 @@ footer a:hover {
 color: rgb(32, 29, 29);
  display: flex;
  justify-content: space-between;
- background-image: url('./public/ca phe.png');
+ background-image: url("/caphegif.gif");
 
  box-shadow: 15px 20px 30px cyan;
  
 } 
+
+
 
 .text-center
 {
@@ -271,7 +273,7 @@ h1, h2, h3, h4, h5, h6, p
 
 .img-singlecoffee img
 {
-  width: 100%;
+  width: 75%;
  height: 700px;
 }
 

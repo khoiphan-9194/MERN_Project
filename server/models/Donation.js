@@ -18,11 +18,12 @@ const donationSchema = new Schema(
          default: Date.now,
          get: (timestamp) => dateFormat(timestamp),
       },
-      message: {
-         type: String,
-         maxlength: 280,
-         trim: true,
-      },
+        message: {
+          type: String,
+          maxlength: 150,
+          trim: true,
+          
+        },
 
       event:
       {

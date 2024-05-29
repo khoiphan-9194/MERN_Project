@@ -18,6 +18,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Profile from './components/Profile';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+// import StudentApp from './components/StudentApp';
+// import StudentList from './components/StudentList';
+import Success from './components/Success';
+
 
 
 
@@ -45,6 +49,12 @@ const router = createBrowserRouter([
         },
 
         {
+          path:`/:eventName/:nameOfdonator/:amount/:CHECKOUT_SESSION_ID`,
+          
+          element: <Success />,
+        },
+
+        {
           path: '/Login',
           element: <Login />,
         },
@@ -64,6 +74,11 @@ const router = createBrowserRouter([
           element: <CreateCoffeeHouse />
         }, 
         
+        // {
+        //   path: '/stu',
+        //   element: <StudentApp />
+        // }, 
+
         {
           path: '/profiles/:profileId',
           element: <Profile />
